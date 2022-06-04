@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts :: header"></head>
+<body>
+	<div class="container">
+		<nav th:replace="layouts :: nav"></nav>
+		<h3>Main Dashboard</h3>
+
+<!--  
+		<div class="col-md-6">
+			<h4>Current activities</h4>
+			<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>Activity</th>
+						<th>Id</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="aProject : ${projectsList}">
+						<td th:text="${aProject.name}" />
+						<td th:text="${aProject.stage}" />
+					</tr>
+				</tbody>
+			</table>
+		</div>
+-->
+
+
+		<h4>Current students</h4>
+		<table class="table table-bordered table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Activities Count</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="aStudentActivityCount : ${StudentActivityCount}">
+					<td th:text="${aStudentActivityCount.firstName}" />
+					<td th:text="${aStudentActivityCount.lastName}" />
+					<td th:text="${aStudentActivityCount.activityCount}" />
+					
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+
+	</div>
+
+</body>
+</html>

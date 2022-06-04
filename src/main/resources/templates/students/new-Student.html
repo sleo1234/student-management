@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts :: header">
+
+
+
+
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}" ></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+		<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" ></script>
+
+	
+	
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+	
+</head>
+
+<nav th:replace="layouts :: nav"></nav>
+<br>
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container">
+
+	<form th:action="@{/students/save}" method="post"
+		th:object="${student}" enctype="multipart/form-data" onsubmit="return checkEmailUnique(this)">
+	
+		<div class="form-group row">
+			<input type="hidden" name ="studentId" th:field="*{studentId}" />
+		</div>
+		<div class="form-group row">
+			<input type="text" placeholder="First name"
+				th:field="*{firstName}">
+
+		</div>
+		<div class="form-group row">
+			<input type="text" placeholder="Last name"
+				th:field="*{lastName}">
+		</div>
+		
+		<div class="form-group row">
+			<input type="text" placeholder="Email"
+				th:field="*{email}" name = "email">
+		</div>
+		
+		<div class="form-group row">
+			<input type="text" placeholder="Age"
+				th:field="*{age}" name = "email">
+		</div>
+		<div>
+			<label class="btn btn-primary btn-sm"> <input type="file"
+				name="fileImage" size="40" id="fileiImage"
+				accept="image/png, image/jpeg, image/jpg" />
+			</label>
+		</div>
+		
+		<div class="form-group row">
+			<button class="btn btn-info col-2" type="submit">Create
+				Student</button>
+		</div>
+	</form>
+	
+	
+	<div class="modal fade text-center" id="modalDialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalTitle"></h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<div class="modal-body">
+						<span id="modalBody"></span>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+<script type="text/javascript">
+
+
+	function checkEmailUnique(form) {
+		
+		alert("Hello")
+
+		userEmail = $("#email").val();
+		
+		url = "[[@{api/students/check_email_unique}]]";
+		
+		
+		csrfValue = $("input[name ='_csrf']").val();
+		userId = $("studentId").val();
+		console.log("here is: " + userEmail)
+		alert(userId)
+		params = {
+			id : userId,
+			email : userEmail,
+			_csrf : csrfValue
+		};
+		
+		$.post(url,
+				params,
+				function(response) {
+					if (response == "OK") {
+						console.log('ok')
+						console.log(userId)
+						form.submit();
+
+					} else if (response == "Duplicated") {
+						showModalDialog("Warning",
+								"There is another user having the email: "
+										+ userEmail);
+					} else {
+						showModalDialog("Error",
+								"Unknown response from server");
+					}
+
+				}).fail(function() {
+
+			showModalDialog("Error", "Could not connect to server");
+
+		});
+
+		return false;
+		 
+	}
+
+	function showModalDialog(title, message) {
+		$("#modalTitle").text(title);
+		$("#modalBody").text(message);
+		$("#modalDialog").modal();
+
+	};
+
+	
+
+</script>
+
+
+
+</body>
+</html>

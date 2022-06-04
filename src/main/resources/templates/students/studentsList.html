@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts :: header"></head>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<nav th:replace="layouts :: nav"></nav>
+<title>Insert title here</title>
+</head>
+<div class="container">
+	<h3>Current students</h3>
+	<hr>
+	<a th:href="@{/students/new}" class="btn btn-primary btn-sm mb-3">
+		New student</a>
+	<div class = "form-group">
+		<form th:action="@{/students}">
+			Filter: <input type="text" name="keyword" id="keyword" size="50"
+				th:value="${keyword}" required /> &nbsp; <input type="submit"
+				class="btn btn-info btn btn-sm" value="Search" /> &nbsp; <input type="button" value="Clear" class="btn btn-info btn btn-sm"
+				id="btnClear" onclick="clearSearch()" />
+		</form>
+	</div>
+
+	<table class="text-center table table-bordered table-striped 
+			table-hover table-responsive-xl">
+		<thead class="thead dark">
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Age</th>
+				<th>Photo</th>
+				
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="aStudent : ${listStudents}">
+				<td th:text="${aStudent.firstName}" />
+				<td th:text="${aStudent.lastName}" />
+				<td th:text="${aStudent.age}" />
+				<td align="center"> 
+				<img th:src="@{${aStudent.photo}}" width ="50" height ="50"/>
+				</td> <!--  @{/aStudent.photosImagePath}-->
+			
+				<td><a th:href="@{/students/update(id=${aStudent.studentId})}"
+					class="btn btn-info btn btn-sm"> Update</a> <a
+					th:href="@{/students/delete(id=${aStudent.studentId})}"
+					class="btn btn-danger btn btn-sm"
+					onClick="if (!(confirm('Are you sure you want to delete this student'))) return false">
+						Delete</a></td>
+			</tr>
+
+		</tbody>
+		
+		
+	</table>
+	
+	<div th:if="${totalItems > 0}" class="text-center">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><a
+						th:replace="fragments :: page_link(1,'First')"></a></li>
+					<li
+						th:class="${ currentPage > 1 ? 'page-item' : 'page-item disabled'}"><a
+						th:replace="fragments :: page_link(${currentPage-1},'Previous')"></a></li>
+					<li
+						th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+						th:each="i : ${#numbers.sequence(1,totalPages)}"><a
+						th:replace="fragments :: page_link(${i},${i})"></a></li>
+
+					<li
+						th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a
+						th:replace="fragments :: page_link(${currentPage+1},'Next')"></a></li>
+					<li
+						th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a
+						th:replace="fragments :: page_link(${totalPages},'Last')"></a></li>
+				</ul>
+			</nav>
+		</div>
+		
+			
+
+	<div class ="pdf">
+		<a th:href="@{/students/pdf-export}" class="btn btn-primary btn-sm mb-3">
+		Export table to pdf</a>
+		</div>
+</div>
+<script type="text/javascript">
+	function clearSearch() {
+		window.location = "[[@{/students}]]";
+	}
+</script>
+
+<body>
+
+</body>
+</html>
