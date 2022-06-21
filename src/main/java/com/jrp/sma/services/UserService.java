@@ -39,6 +39,13 @@ public class UserService {
 		return savedUser;
 		
 	}
+
+	public User findUserByEmail(String email) {
+		// TODO Auto-generated method stub
+		return userRepo.findByEmail(email);
+	}
+	
+	
 	
 	
 	

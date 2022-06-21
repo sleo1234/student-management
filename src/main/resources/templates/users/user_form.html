@@ -9,6 +9,7 @@
 		<h1>Manage users|[[${pageTitle}]]</h1>
 
 	</div>
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	<div>
 		<form th:action="@{/users/save}" th:object="${user}" method="post"
 		style="max-width: 700px; margin: 0 auto" enctype="multipart/form-data">

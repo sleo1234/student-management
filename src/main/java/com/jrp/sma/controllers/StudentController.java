@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,9 @@ public class StudentController {
 	
 	@Autowired
 	StudentService studService;
-
+  
+	@Autowired
+	HttpServletRequest request ;
 	
 	
 	@GetMapping
@@ -89,17 +92,13 @@ public class StudentController {
 		return "students/studentsList";
 	}
 	
+	@GetMapping("/page/age/{pageNum}")
 	
+	public String listByAge (Model model, @Param("minAge") int minAge, @Param("maxAge") int maxAge) {
+		
+		return "";
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	
 	@RequestMapping("/new")
 	public String studentForm (Model model) {
@@ -110,6 +109,8 @@ public class StudentController {
 		return "students/new-Student";
 		
 	}
+	
+	
 	
 	
 	@PostMapping("/save")

@@ -11,6 +11,7 @@
 <title>Insert title here</title>
 </head>
 <div class="container">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	<h3>Current students</h3>
 	<hr>
 	<a th:href="@{/students/new}" class="btn btn-primary btn-sm mb-3">
@@ -23,6 +24,19 @@
 				id="btnClear" onclick="clearSearch()" />
 		</form>
 	</div>
+
+        
+                 <div>
+                 <form
+						th:action="@{/students(minAge=${minAge},maxAge=${maxAge})}">
+					<h6>Filter by age</h6>	</p><input type="number" name="minAge" id="minAge" size="50"
+							/>
+							<br> <input type="number"
+							name="maxAge" id="maxAge" size="50"  /> </br>
+							<input type ="submit" class="btn btn-info btn btn-sm" value ="Search"/>
+							</form>
+                    </div>
+					
 
 	<table class="text-center table table-bordered table-striped 
 			table-hover table-responsive-xl">

@@ -36,7 +36,9 @@ public interface StudentRepository extends PagingAndSortingRepository<Student, L
 	
 	
 	public Student findByEmail(String email);
-
+	
+	@Query(nativeQuery = true,  value = "SELECT * FROM STUDENT WHERE AGE BETWEEN ?1 AND ?2")
+	public Page<Student> findBetweenAge(int minAge, int maxAge, Pageable pageable);
 	
 	
 }

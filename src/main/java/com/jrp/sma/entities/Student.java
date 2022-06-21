@@ -15,6 +15,8 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.data.annotation.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Student { 
@@ -28,13 +30,13 @@ public class Student {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String age;
+	private int age;
 	
-	public String getAge() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setAge(String age) {
+	public void setAge(int age) {
 		this.age = age;
 	}
 
@@ -80,7 +82,7 @@ public class Student {
 		 @JoinTable (name = "activity_student", 
 		    joinColumns = @JoinColumn(name = "activity_id"),
 		    inverseJoinColumns = @JoinColumn(name = "student_id"))
-	
+	@JsonIgnore
 	private List <Activity> activities;
 	
 	

@@ -1,7 +1,6 @@
 package com.jrp.sma.services;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +27,16 @@ public class StudentService {
 		
 	}
      
-	
+	public Page <Student> listBetweenAge(int pageNum, String sortField, String sortDir,int minAge, int maxAge){
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(pageNum - 1, STUDENTS_PER_PAGE, sort);
+		if (minAge==0 && maxAge==0) {
+			return studRepo.findAll(pageable);
+		}
+		return studRepo.findBetweenAge(minAge, maxAge, pageable);
+     }
+
 	
 
 	
@@ -52,8 +60,7 @@ public class StudentService {
 		return student == null ;
 	}
 	
-	
-	
+
 	/*
 	 * public List <Student> listByName (String name){
 	 * 
