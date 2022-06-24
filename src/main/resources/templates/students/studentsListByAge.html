@@ -17,19 +17,28 @@
 	<a th:href="@{/students/new}" class="btn btn-primary btn-sm mb-3">
 		New student</a>
 	<div class = "form-group">
-		<form th:action="@{/students}">
-			Filter: <input type="text" name="keyword" id="keyword" size="50"
-				th:value="${keyword}"  /> &nbsp; <input type="submit"
-				class="btn btn-info btn btn-sm" value="Search" /> &nbsp; <input type="button" value="Clear" class="btn btn-info btn btn-sm"
-				id="btnClear" onclick="clearSearch()" />
-				<h6>Filter by age</h6>	</p><input type="number" name="minAge" id="minAge" size="50"
+	 <form
+						th:action="@{/students/page/age(minAge=${minAge},maxAge=${maxAge})}">
+					<h6>Filter by age</h6>	</p><input type="number" name="minAge" id="minAge" size="50"
 							/>
 							<br> <input type="number"
 							name="maxAge" id="maxAge" size="50"  /> </br>
 							<input type ="submit" class="btn btn-info btn btn-sm" value ="Search"/>
-		</form>
+							</form>
+                    </div>
 	</div>
-<!-- 	(minAge=${minAge},maxAge=${maxAge})} -->
+
+        
+                 <div>
+                 <form
+						th:action="@{/students(minAge=${minAge},maxAge=${maxAge})}">
+					<h6>Filter by age</h6>	</p><input type="number" name="minAge" id="minAge" size="50"
+							/>
+							<br> <input type="number"
+							name="maxAge" id="maxAge" size="50"  /> </br>
+							<input type ="submit" class="btn btn-info btn btn-sm" value ="Search"/>
+							</form>
+                    </div>
 					
 
 	<table class="text-center table table-bordered table-striped 

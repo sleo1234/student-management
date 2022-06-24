@@ -48,9 +48,9 @@ public class StudentController {
 	
 	
 	@GetMapping
-	public String listFirstPage(Model model) throws  StudentNotFoundException {
+	public String listFirstPage(Model model, Integer minAge, Integer maxAge) throws  StudentNotFoundException {
 
-		return listByPage(1, model, "firstName", "asc",null);
+		return listByPage(1, model, "first_name", "asc",null,minAge,maxAge);
 	}
 	
 	
@@ -58,12 +58,19 @@ public class StudentController {
 	
 	@GetMapping("/page/{pageNum}")
 	public String listByPage(@PathVariable("pageNum") int pageNum, Model model, @Param("sortField") String sortField,
-			@Param("sortDir") String sortDir, @Param("keyword") String keyword) throws StudentNotFoundException {
+			@Param("sortDir") String sortDir, @Param("keyword") String keyword,
+			@Param("minAge") Integer minAge, @Param("maxAge") Integer maxAge) throws StudentNotFoundException {
   
+       
+		if (minAge != null && maxAge != null) {
+		Page<Student> page = studService.listByPage(pageNum, sortField, sortDir, keyword,minAge,maxAge);
 		
+		System.out.println("Max age ----------------"+ maxAge);
+		System.out.println("Min age ----------------"+ minAge);
 		
-		Page<Student> page = studService.listByPage(pageNum, sortField, sortDir, keyword);
 		List<Student> listStudents = page.getContent();
+		
+		
 //		System.out.println("Sort field: " + sortField);
 //		System.out.println("Sort dir: " + sortDir);
 		long startCount = (pageNum - 1) * StudentService.STUDENTS_PER_PAGE + 1;
@@ -89,14 +96,9 @@ public class StudentController {
 		model.addAttribute("moduleURL", "/students");
 		model.addAttribute("keyword", keyword);
         System.out.println("kewyord: " + keyword);
+		}
 		return "students/studentsList";
-	}
-	
-	@GetMapping("/page/age/{pageNum}")
-	
-	public String listByAge (Model model, @Param("minAge") int minAge, @Param("maxAge") int maxAge) {
 		
-		return "";
 	}
 	
 	

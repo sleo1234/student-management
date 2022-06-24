@@ -23,13 +23,13 @@
 
 		<div th:fragment="column_link(fieldName, columnLabel, removeTag)"
 			th:remove="${removeTag}"><a class="text-white"
-			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName}  +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+			th:href="@{${moduleURL}+ '/page/' + ${currentPage} + '?sortField=' + ${fieldName}  +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : '' }+  '?maxAge=' + ${maxAge} + '&minAge=' + ${minAge}}}">
 				[[${columnLabel}]] </a></th>
 
 	</div>
 	<a th:fragment="page_link(pageNum, label)"
 		class="page-link" 
-		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]</a>
+		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} +'?maxAge=' + ${maxAge} + '&minAge=' + ${minAge} }">[[${label}]]</a>
 	
 
 </body>

@@ -27,11 +27,11 @@ public class StudentService {
 		
 	}
      
-	public Page <Student> listBetweenAge(int pageNum, String sortField, String sortDir,int minAge, int maxAge){
+	public Page <Student> listBetweenAge(int pageNum, String sortField, String sortDir,Integer minAge, Integer maxAge){
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		Pageable pageable = PageRequest.of(pageNum - 1, STUDENTS_PER_PAGE, sort);
-		if (minAge==0 && maxAge==0) {
+		if (minAge==null && maxAge==null) {
 			return studRepo.findAll(pageable);
 		}
 		return studRepo.findBetweenAge(minAge, maxAge, pageable);
@@ -40,7 +40,8 @@ public class StudentService {
 	
 
 	
-	public Page<Student> listByPage(int pageNum, String sortField, String sortDir, String keyword){
+	public Page<Student> listByPage(int pageNum, String sortField, String sortDir, String keyword, Integer minAge
+			, Integer maxAge){
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		Pageable pageable = PageRequest.of(pageNum - 1, STUDENTS_PER_PAGE, sort);
@@ -49,6 +50,12 @@ public class StudentService {
 				
 			return  studRepo.findAll(keyword, pageable);
 		}
+	    
+  if (minAge !=null && maxAge !=null) {
+	    	
+	    	return studRepo.findBetweenAge(minAge, maxAge, pageable);
+	    }
+	    
 		return  studRepo.findAll(pageable);
 	}
 	
