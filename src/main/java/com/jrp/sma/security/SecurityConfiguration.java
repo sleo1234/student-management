@@ -82,7 +82,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    	 .deny().and()
 	    	 .authorizeRequests()
 	    	.antMatchers("/api/**").hasAuthority("ADMIN")
-	    	.antMatchers("/students/**").hasAuthority("ADMIN")
+	    
 	    	.antMatchers("/activities/new").hasAuthority("ADMIN")
 	    	.antMatchers("/activities/save").hasAuthority("ADMIN")
 	        .antMatchers("/", "/**").permitAll()//everyone can access homepage if they are already authenticated and everything after '/'
