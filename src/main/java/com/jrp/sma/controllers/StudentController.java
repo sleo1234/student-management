@@ -57,24 +57,32 @@ public class StudentController {
 	public String listByPage(@PathVariable("pageNum") int pageNum, Model model, @Param("sortField") String sortField,
 			@Param("sortDir") String sortDir, @Param("keyword") String keyword, @Param("minAge") Integer minAge,
 			@Param("maxAge") Integer maxAge) throws StudentNotFoundException {
-
-              List<Integer> ages = checkNullAgeValues(minAge, maxAge);
-              minAge = ages.get(0);
-              maxAge = ages.get(1);
               
+		      if (minAge == null || maxAge == null) {
+              List<Integer> ages = checkNullAgeValues(minAge, maxAge);
+             
+             minAge = ages.get(0);
+             maxAge = ages.get(1);
+		      }
+		      
 		if (minAge != null && maxAge != null) {
 			Page<Student> page = studService.listByPage(pageNum, sortField, sortDir, keyword, minAge, maxAge);
-
+            System.out.println("-0-----------" + minAge);
+            System.out.println("-0-----------" + maxAge);
 			List<Student> listStudents = page.getContent();
+			
 
 			long startCount = (pageNum - 1) * StudentService.STUDENTS_PER_PAGE + 1;
 			long endCount = startCount + StudentService.STUDENTS_PER_PAGE + 1;
+			
 			if (endCount > page.getTotalElements()) {
 				endCount = page.getTotalElements();
 			}
+			
 			System.out.println("Page number: " + pageNum);
 			System.out.println("Total elements: " + page.getTotalElements());
 			System.out.println("Total pages: " + page.getTotalPages());
+			System.out.println("******-------------****" + listStudents.size());
 
 			int totalPages = page.getTotalPages();
 			String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
@@ -110,7 +118,7 @@ public class StudentController {
 		ages.add(minimumAge);
 		ages.add(maximumAge);
 
-		if (minAge == null || maxAge == null) {
+		if (minAge == null ||   maxAge == null) {
 
 			minAge = minimumAge;
 			maxAge = maximumAge;

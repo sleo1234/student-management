@@ -81,7 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    	 http.httpBasic().and().csrf().csrfTokenRepository(csrfTokenRepository).and().headers().frameOptions()
 	    	 .deny().and()
 	    	 .authorizeRequests()
-	    	.antMatchers("/api/**").hasAuthority("ADMIN")
+	    	//.antMatchers("/api/**").hasAuthority("ADMIN")
 	    
 	    	.antMatchers("/activities/new").hasAuthority("ADMIN")
 	    	.antMatchers("/activities/save").hasAuthority("ADMIN")

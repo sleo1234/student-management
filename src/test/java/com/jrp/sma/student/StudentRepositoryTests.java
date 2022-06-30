@@ -40,13 +40,13 @@ public class StudentRepositoryTests {
 		Sort sort = Sort.by("first_name");
 		
 		List<Student> allStudents = (List<Student>) studRepo.findAll();
-		Pageable pageable = PageRequest.of(1,allStudents.size(), sort.ascending());
+		Pageable pageable = PageRequest.of(0,10,sort.ascending());
 		
-		Page<Student> students = studRepo.findBetweenAge(2, 30,pageable);
-		
+		Page<Student> page = studRepo.findBetweenAge(19,32,pageable);
+		List<Student> students = page.getContent();
 		students.forEach(System.out :: println);
 		
-		assertThat(students).size().isNotNull();
+		assertThat(students).size().isGreaterThan(0);
 	}
 	
 	

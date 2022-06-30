@@ -29,7 +29,7 @@
 	</div>
 	<a th:fragment="page_link(pageNum, label)"
 		class="page-link" 
-		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} +'?maxAge=' + ${maxAge != null ? '&maxAge=' + maxAge : ''} + '&minAge=' + ${minAge != null ? '&minAge=' + minAge : ''} }">[[${label}]]</a>
+		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${maxAge != null ? '&maxAge=' + maxAge : ''} + ${minAge != null ? '&minAge=' + minAge : ''} }">[[${label}]]</a>
 	
 
 </body>

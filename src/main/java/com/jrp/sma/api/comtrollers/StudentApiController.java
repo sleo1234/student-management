@@ -1,8 +1,10 @@
 package com.jrp.sma.api.comtrollers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jrp.sma.controllers.StudentController;
 import com.jrp.sma.dao.StudentRepository;
 import com.jrp.sma.entities.Student;
 import com.jrp.sma.services.StudentService;
@@ -29,6 +32,8 @@ public class StudentApiController {
 	 StudentRepository studRepo;
 	 
 	 @Autowired StudentService studService;
+	 
+	 @Autowired StudentController studController;
 	
 	@GetMapping
 	
@@ -102,6 +107,48 @@ public class StudentApiController {
 		return studService.isEmailUnique(email) ? "OK" : "Duplicated";
 	}
 	
+	@GetMapping("/filter_by_age/page/{pageNum}")
+	
+	public List<Student> filterByAge (@PathVariable("pageNum") int pageNum, @Param("keyword") String keyword,@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, @Param("minAge") Integer minAge,
+			@Param("maxAge") Integer maxAge) {
+		
+		  System.out.println("++++++++++" + minAge);
+          System.out.println("++++++++++" + maxAge);
+		 if (minAge == null || maxAge == null) {
+           List<Integer> ages = studController.checkNullAgeValues(minAge, maxAge);
+            
+          minAge = ages.get(0);
+           maxAge = ages.get(1);
+		      }
+		 
+         List<Student> listOfStudents = new ArrayList<Student>();
+         
+ 		if (minAge != null && maxAge != null) {
+ 			Page<Student> page = studService.listByPage(pageNum, sortField, sortDir, null, minAge, maxAge);
+            System.out.println("++++++++++" + minAge);
+            System.out.println("++++++++++" + maxAge);
+ 			List<Student> listStudents = page.getContent();
+ 			
+ 			for (Student stud : listStudents) {
+ 				listOfStudents.add(stud);
+ 			}
+ 			
+
+ 			long startCount = (pageNum - 1) * StudentService.STUDENTS_PER_PAGE + 1;
+ 			long endCount = startCount + StudentService.STUDENTS_PER_PAGE + 1;
+ 			
+ 			if (endCount > page.getTotalElements()) {
+ 				endCount = page.getTotalElements();
+ 			}
+ 			
+ 		
+         System.out.println("----------------------------------------" + listOfStudents.size());
+ 			
+	}
+ 		return listOfStudents;
+	
+	}
 	
 	
 }
